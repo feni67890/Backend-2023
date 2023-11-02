@@ -30,14 +30,14 @@ class StudentController extends Controller
     public function store(Request $request)
     {
 
-        // $input = [
-        // 	'nama' => $request->nama,
-        // 	'nim' => $request->nim,
-        // 	'email' => $request->email,
-        // 	'jurusan' => $request->jurusan
-        // ];
+        $input = [
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'email' => $request->email,
+            'jurusan' => $request->jurusan
+        ];
 
-        $student = Student::create($request->all());
+        $student = Student::create($input);
 
         $response = [
             'message' => 'Data Student Berhasil Dibuat',
@@ -45,26 +45,6 @@ class StudentController extends Controller
         ];
 
         return response()->json($response, 201);
-    }
-
-    public function show($id)
-    {
-        $student = Student::find($id);
-
-        if ($student) {
-            $response = [
-                'message' => 'Get detail student',
-                'data' => $student
-            ];
-
-            return response()->json($response, 200);
-        } else {
-            $response = [
-                'message' => 'Data not found'
-            ];
-
-            return response()->json($response, 404);
-        }
     }
 
     public function update(Request $request, $id)
@@ -92,6 +72,7 @@ class StudentController extends Controller
         $student = Student::find($id);
 
         if ($student) {
+            $student->destroy();
             $response = [
                 'message' => 'Student is delete',
                 'data' => $student->delete()
